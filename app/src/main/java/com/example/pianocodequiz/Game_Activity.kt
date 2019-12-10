@@ -128,19 +128,79 @@ class Game_Activity : AppCompatActivity() {
 
         // 問題のコード名をランダムに表示
         val textView = findViewById<TextView>(id.textView)
-
         val questions = arrayOf("C","D","E","F","G","A","B")
-        val answers = mutableListOf("C", listOf(btn_A, ))
-        val question = questions[(0..questions.size).random()]
-        textView.text = question
+        var answers = kotlin.collections.mutableMapOf(
+            "C" to arrayOf(id.btn_C,id.btn_E,id.btn_G),
+            "D" to arrayOf(id.btn_D,id.btn_Fsharp,id.btn_A),
+            "E" to arrayOf(id.btn_E,id.btn_Gsharp,id.btn_B),
+            "F" to arrayOf(id.btn_F,id.btn_A,id.btn_C),
+            "G" to arrayOf(id.btn_G,id.btn_B,id.btn_D),
+            "A" to arrayOf(id.btn_A,id.btn_Dsharp,id.btn_E),
+            "B" to arrayOf(id.btn_B,id.btn_Dsharp,id.btn_Fsharp))
+        //結果画面を出す処理
+        fun showResult(){
 
-        //ANSWERボタンを押した時の処理
-        val CheckAnswer = object: OnClickListener{
-            override fun onClick(v: View){
-                question
-            }
         }
-        findViewById<Button>(id.answer_btn).setOnClickListener(CheckAnswer)
+        //問題を出す＋答えの判断の処理
+        var counter = 0
+        fun setNextQuestion(){
+            //問題を呼ぶたびcounterに記録する
+            counter += 1
+            //ピアノの押した鍵盤を元に戻す
+            for ((key, value) in pressed){
+                if (value) {
+                    pressed[key] = false
+                    if (key in listOf(id.btn_Csharp, id.btn_Dsharp, id.btn_Fsharp, id.btn_Gsharp,
+                                id.btn_Asharp)){//黒鍵なら赤->黒
+                        findViewById<Button>(key).setBackgroundColor(Color.parseColor("#000000"))
+                    }else{ //白鍵の場合、赤->白
+                        findViewById<Button>(key).setBackgroundColor(Color.parseColor("#FFFEEC"))
+                    }
+                }
+            }
+            //問題をランダムに出題
+            val question = questions[(0..questions.size).random()]
+            var answer = answers[question]
+            textView.text = question
+            //ANSWERボタンを押した時の処理
+            val CheckAnswer = object: OnClickListener{
+                override fun onClick(v: View){
+                    var result = true
+                    for (i in pressed){
+                        if (i.key in answer!!){
+                            if (!i.value){
+                                result = false
+                                break
+                            }
+                        }else{
+                            if (i.value){
+                                result = false
+                                break
+                            }
+                        }
+                    }
+                    var result_textview = findViewById<TextView>(id.Result)
+                    if (result){
+                        result_textview.text = "CORRECT"
+                        result_textview.setTextColor(Color.RED)
+                        if (counter < 10){
+                            setNextQuestion()
+                        }else{
+                            showResult()
+                        }
+                    }else{
+                        result_textview.text = "WRONG"
+                        result_textview.setTextColor(Color.BLUE)
+
+                    }
+                }
+            }
+            findViewById<Button>(id.answer_btn).setOnClickListener(CheckAnswer)
+        }
+        //初回の問題の設定
+        setNextQuestion()
+
+
 
 
 
