@@ -139,7 +139,7 @@ class Game_Activity : AppCompatActivity() {
             "B" to arrayOf(id.btn_B,id.btn_Dsharp,id.btn_Fsharp))
         //結果画面を出す処理
         fun showResult(){
-
+            var Intent = intent()
         }
         //問題を出す＋答えの判断の処理
         var counter = 0
