@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00FFFFFF"
+    android:orientation="vertical">
+    <TableRow
+        style="?attr/actionBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_C_higher"
+            style="@style/WhiteKey"/>
+        <Button
+            android:id="@+id/btn_D_higher"
+            style="@style/WhiteKey"/>
+        <Button
+            android:id="@+id/btn_E_higher"
+            style="@style/WhiteKey"/>
+        <Button
+            android:id="@+id/btn_F_higher"
+            style="@style/WhiteKey"/>
+        <Button
+            android:id="@+id/btn_G_higher"
+            style="@style/WhiteKey"/>
+        <Button
+            android:id="@+id/btn_A_higher"
+            style="@style/WhiteKey"/>
+        <Button
+            android:id="@+id/btn_B_higher"
+            style="@style/WhiteKey"/>
+    </TableRow>
+</TableLayout>

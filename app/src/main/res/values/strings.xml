@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Piano code quiz</string>
+    <string name="quit">QUIT</string>
+    <string name="text">TEXT</string>
+    <string name="answer">ANSWER</string>
+    <string name="press_right_keys_for_chord">Press right keys for chord</string>
+    <string name="restart">Restart</string>
+    <string name="result">Result</string>
+    <string name="menu">MENU</string>
+    <string name="_0_5">0/5</string>
 </resources>

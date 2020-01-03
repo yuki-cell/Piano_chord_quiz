@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         val btnIntent = findViewById<Button>(R.id.btn_intent)
         btnIntent.setOnClickListener(object: View.OnClickListener{
             override fun onClick(v: View?){
-                val intent = Intent(this@MainActivity, Game_Activity::class.java)
+                val intent = Intent(this@MainActivity, GameActivity::class.java)
                 startActivity(intent)
             }
         })

@@ -3,23 +3,23 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 <!--    普通のオクターブの鍵盤-->
     <Button
-        android:id="@+id/btn_Csharp"
+        android:id="@+id/btn_Csharp_higher"
         style="@style/BlackKey"
         android:layout_marginLeft='30dp'/>
     <Button
-        android:id="@+id/btn_Dsharp"
+        android:id="@+id/btn_Dsharp_higher"
         style="@style/BlackKey"
         android:layout_marginLeft='20dp'/>
     <Button
-        android:id="@+id/btn_Fsharp"
+        android:id="@+id/btn_Fsharp_higher"
         style="@style/BlackKey"
         android:layout_marginLeft='60dp'/>
     <Button
-        android:id="@+id/btn_Gsharp"
+        android:id="@+id/btn_Gsharp_higher"
         style="@style/BlackKey"
         android:layout_marginLeft='17dp'/>
     <Button
-        android:id="@+id/btn_Asharp"
+        android:id="@+id/btn_Asharp_higher"
         style="@style/BlackKey"
         android:layout_marginLeft='17dp'/>
 </LinearLayout>
