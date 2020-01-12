@@ -215,7 +215,7 @@ class GameActivity : AppCompatActivity() {
         var counter = 0
         var rightAnswerCount = 0
         var totalGuessCount = 0
-        var answer: Array<Array<Int>>? = arrayOf()
+        var answer:Array<Array<Int>>? = arrayOf()
         var result_textview = findViewById<TextView>(Message)
         ////ピアノの押した鍵盤を元に戻す
         fun clear_keys() {
@@ -251,26 +251,30 @@ class GameActivity : AppCompatActivity() {
             var question = base_key + chord
             return listOf(index, chord, question)
         }
-        fun get_answer(index:Any, chord:Any, answer: Array<Array<Int>>?):Array<Array<Int>>?{
+        fun get_answer(index:Any, chord:Any, answer:Array<Array<Int>>?): Array<Array<Int>>? {
             var key_distances = chords[chord]
-            fun make_answer(){
-                answer.add(keys_id[index as Int])
-                for (key_distance in key_distances!!){
-                    answer.add( keys_id[index+key_distance])
-                }
+            var i = index
+            var num = 0
+            answer!![num] = (keys_id[i as Int])
+            for (key_distance in key_distances!!) {
+                i = i as Int + key_distance
+                num += 1
+                answer!![num] = (keys_id[i as Int])
             }
+            return answer
         }
         //次の問題を呼ぶ処理
         fun setNextQuestion() {
             result_textview.text = "Press right keys for chord"
             result_textview.setTextColor(Color.BLACK)
+            answer = arrayOf()
             //問題を呼ぶたびcounterに記録する
             counter += 1
             //ピアノの押した鍵盤を元に戻す
             clear_keys()
             //問題をランダムに出題
-            var (index, chord, question) = get_question()
-            answer = get_answer(index,chord,answer)
+            var (index:Any, chord, question) = get_question()
+            answer = get_answer(index, chord, answer)
             textView.text = question.toString()
             //ANSWERボタンを押した時の処理
             val CheckAnswer = object : OnClickListener {
@@ -374,3 +378,5 @@ class GameActivity : AppCompatActivity() {
     }
 
 }
+
+
