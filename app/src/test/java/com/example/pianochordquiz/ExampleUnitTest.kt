@@ -1,4 +1,4 @@
-package com.example.pianocodequiz
+package com.example.pianochordquiz
 
 import org.junit.Test
 

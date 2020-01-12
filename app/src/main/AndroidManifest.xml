@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.pianocodequiz">
+    package="com.example.pianochordquiz">
 
     <application
         android:allowBackup="true"
@@ -9,13 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GameResultActivity"
+        <activity android:name="com.example.pianochordquiz.GameResultActivity"
             android:screenOrientation="landscape"/>
         <activity
-            android:name=".GameActivity"
+            android:name="com.example.pianochordquiz.GameActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.pianochordquiz.MainActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

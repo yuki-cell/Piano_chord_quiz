@@ -4,19 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#00c0ff"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/btn_intent"
-        android:layout_width="156dp"
-        android:layout_height="78dp"
+        android:layout_width="153dp"
+        android:layout_height="68dp"
+        android:includeFontPadding="false"
         android:text="Start"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.242" />
+
+    <Button
+        android:id="@+id/btn_intent2"
+        android:layout_width="153dp"
+        android:layout_height="68dp"
+        android:includeFontPadding="false"
+        android:text="SETTING"
         android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.443" />
+        app:layout_constraintVertical_bias="0.693" />
 
     <TextView
         android:id="@+id/textView3"
@@ -24,11 +40,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginLeft="72dp"
-        android:layout_marginTop="116dp"
+        android:layout_marginTop="72dp"
+        android:shadowColor="#000A229B"
         android:text="Piano Code Quiz"
+        android:textColor="#000000"
         android:textSize="36sp"
+        app:fontFamily="sans-serif-condensed"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.408"
+        app:layout_constraintHorizontal_bias="0.404"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -1,4 +1,4 @@
-package com.example.pianocodequiz
+package com.example.pianochordquiz
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_game_result.*
 
 class GameResultActivity : AppCompatActivity() {
 
@@ -39,7 +38,12 @@ class GameResultActivity : AppCompatActivity() {
         var totalGuessCount = getIntent().getIntExtra("TOTAL_GUESS_COUNT", 0)
         var score_textview = findViewById<TextView>(R.id.score)
         Log.d("test", "right:"+rightAnswerCount.toString()+"guess:"+totalGuessCount.toString())
-        score_textview.text = ("%,.2f".format((rightAnswerCount.toDouble()/totalGuessCount.toDouble()) * 100)).toString() + "%"
+        if (totalGuessCount != 0){
+            score_textview.text =
+                ("%,.2f".format((rightAnswerCount.toDouble() / totalGuessCount.toDouble()) * 100)).toString() + "%"
+        }else{
+            score_textview.text = "0%"
+        }
 
     }
 }

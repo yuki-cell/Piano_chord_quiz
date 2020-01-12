@@ -1,4 +1,4 @@
-package com.example.pianocodequiz
+package com.example.pianochordquiz
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
