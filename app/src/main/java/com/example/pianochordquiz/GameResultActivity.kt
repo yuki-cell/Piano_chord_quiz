@@ -13,6 +13,7 @@ class GameResultActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_result)
+        //proecssing for menu and restart button
         val buttonOperator = object: View.OnClickListener {
             override fun onClick(v: View){
                 when(v.id){
@@ -27,13 +28,12 @@ class GameResultActivity : AppCompatActivity() {
                 }
             }
         }
-        //ボタンの処理
         var menuButton = findViewById<Button>(R.id.Menu)
         var restartButton = findViewById<Button>(R.id.restart)
         menuButton.setOnClickListener(buttonOperator)
         restartButton.setOnClickListener(buttonOperator)
 
-        //正解数/回答数の表示
+        //processing for showing the score
         var rightAnswerCount = getIntent().getIntExtra("RIGHT_ANSWER_COUNT", 0)
         var totalGuessCount = getIntent().getIntExtra("TOTAL_GUESS_COUNT", 0)
         var score_textview = findViewById<TextView>(R.id.score)

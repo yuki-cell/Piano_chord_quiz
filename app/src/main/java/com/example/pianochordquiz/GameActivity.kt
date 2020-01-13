@@ -20,9 +20,9 @@ import com.example.pianochordquiz.R.id.*
 
 
 class GameActivity : AppCompatActivity() {
-    //sound poolとそれぞれのsoundの変数
-    //normalがC2, higherがC3
+    //initializing variable for soundpool and sound for each keys(24 in total)
     lateinit var soundPool: SoundPool
+    //normal-corresponds to C2 range
     var soundC = 0
     var soundC_sharp = 0
     var soundD = 0
@@ -35,7 +35,7 @@ class GameActivity : AppCompatActivity() {
     var soundA = 0
     var soundA_sharp = 0
     var soundB = 0
-
+    //higher-corresponds to C3 range
     var soundC_higher = 0
     var soundC_sharp_higher = 0
     var soundD_higher = 0
@@ -53,7 +53,9 @@ class GameActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        //音を出す処理
+        //common can access to variable in application class(shared to other activities)
+        var common = application as UtilCommon
+        //setting for sound pool(to play sound for each keys)
         val audioAttributes = AudioAttributes.Builder()
             // USAGE_MEDIA
             // USAGE_GAME
@@ -64,10 +66,11 @@ class GameActivity : AppCompatActivity() {
             .build()
         soundPool = SoundPool.Builder()
             .setAudioAttributes(audioAttributes)
-            // ストリーム数に応じて
+            // for number of streams
             .setMaxStreams(3)
             .build()
-        //画面遷移の処理
+
+        //processing for quit button
         val btnQuit = findViewById<Button>(btn_quit)
         btnQuit.setOnClickListener(object : OnClickListener {
             override fun onClick(v: View?) {
@@ -75,8 +78,9 @@ class GameActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         })
-        // ピアノの音をロードしておく
-        //normal- C2
+
+        // load the sound file for each keys
+        //normal- C2 key range
         soundC = soundPool.load(this, R.raw.sound_do, 1)
         soundC_sharp = soundPool.load(this, R.raw.sound_do_sharp, 1)
         soundD = soundPool.load(this, R.raw.sound_re, 1)
@@ -89,7 +93,7 @@ class GameActivity : AppCompatActivity() {
         soundA = soundPool.load(this, R.raw.sound_ra, 1)
         soundA_sharp = soundPool.load(this, R.raw.sound_ra_sharp, 1)
         soundB = soundPool.load(this, R.raw.sound_shi, 1)
-        //higher -C3
+        //higher -C3 key range
         soundC_higher = soundPool.load(this, R.raw.sound_do_higher, 1)
         soundC_sharp_higher = soundPool.load(this, R.raw.sound_do_sharp_higher, 1)
         soundD_higher = soundPool.load(this, R.raw.sound_re_higher, 1)
@@ -102,11 +106,12 @@ class GameActivity : AppCompatActivity() {
         soundA_higher = soundPool.load(this, R.raw.sound_ra_higher, 1)
         soundA_sharp_higher = soundPool.load(this, R.raw.sound_ra_sharp_higher, 1)
         soundB_higher = soundPool.load(this, R.raw.sound_shi_higher, 1)
-        // load が終わったか確認する場合
+        // check whether each key is loaded successfully
         soundPool.setOnLoadCompleteListener { soundPool, sampleId, status ->
             Log.d("debug", "sampleId=$sampleId")
             Log.d("debug", "status=$status")
         }
+
         var sounds = mutableMapOf(
             id.btn_C to soundC,
             btn_Csharp to soundC_sharp, id.btn_D to soundD, btn_Dsharp to soundD_sharp,
@@ -123,7 +128,8 @@ class GameActivity : AppCompatActivity() {
             btn_Asharp_higher to soundA_sharp_higher,
             id.btn_B_higher to soundB_higher
         )
-        //押されたか判断する変数
+
+        //check whether each key is pressed or not
         var press_record = mutableMapOf(
             id.btn_C to false,
             btn_Csharp to false, id.btn_D to false, btn_Dsharp to false, id.btn_E to false,
@@ -135,10 +141,14 @@ class GameActivity : AppCompatActivity() {
             btn_Fsharp_higher to false, btn_G_higher to false, btn_Gsharp_higher to false,
             btn_A_higher to false, btn_Asharp_higher to false, btn_B_higher to false
         )
+
+        //function for when piano key is pressed
         val pianoOperator = object : OnClickListener {
             override fun onClick(v: View) {
                 //play sound and change the color of key
-                soundPool.play(sounds[v.id]!!, 1.0f, 1.0f, 0, 0, 1.0f)
+                var sound_vol = common.getSoundVol()
+                Log.d("test", "sound "+sound_vol.toString())
+                soundPool.play(sounds[v.id]!!, sound_vol!!.toFloat(), sound_vol!!.toFloat(), 0, 0, 1.0f)
                 if (press_record[v.id]!!) {
                     //黒鍵のばあい赤->黒
                     if (v.id in listOf(
@@ -159,8 +169,8 @@ class GameActivity : AppCompatActivity() {
                 }
             }
         }
-        //各鍵盤にsetOnClickListenerを設定
-        //normalオクターブ
+        //set pianoOperator to each keys
+        //normal-C2 octave
         var normal_octave = findViewById<FrameLayout>(normal)
         normal_octave.findViewById<Button>(id.btn_C).setOnClickListener(pianoOperator)
         normal_octave.findViewById<Button>(btn_Csharp).setOnClickListener(pianoOperator)
@@ -174,7 +184,7 @@ class GameActivity : AppCompatActivity() {
         normal_octave.findViewById<Button>(id.btn_A).setOnClickListener(pianoOperator)
         normal_octave.findViewById<Button>(btn_Asharp).setOnClickListener(pianoOperator)
         normal_octave.findViewById<Button>(id.btn_B).setOnClickListener(pianoOperator)
-        //一個上のオクターブの鍵盤
+        //higher- C3 octave
         var octave_higher = findViewById<FrameLayout>(octave_higher)
         octave_higher.findViewById<Button>(btn_C_higher).setOnClickListener(pianoOperator)
         octave_higher.findViewById<Button>(btn_Csharp_higher).setOnClickListener(pianoOperator)
@@ -190,11 +200,12 @@ class GameActivity : AppCompatActivity() {
         octave_higher.findViewById<Button>(btn_B_higher).setOnClickListener(pianoOperator)
 
 
-        // 問題のコードの保管場所
+        // store all the questions(chords)
         var base_keys = arrayOf("C","C#","D","D#","E","F","F#","G","G#","A","A#","B")
-        //major, minor, aug,sus4, dim
+        //chord_names(major, minor, aug,sus4, dim)
         var chords = mutableMapOf("" to arrayOf(4,3),
             "m" to arrayOf(3,4),"aug" to arrayOf(4,4),"sus4" to arrayOf(5,2),"dim" to arrayOf(3,3))
+        //list of piano keys used when checking the answer
         var keys_id = arrayOf(arrayOf(btn_C,btn_C_higher),
             arrayOf(btn_Csharp,btn_Csharp_higher), arrayOf(btn_D,btn_D_higher),
             arrayOf(btn_Dsharp,btn_Dsharp_higher),arrayOf(btn_E,btn_E_higher),
@@ -215,9 +226,10 @@ class GameActivity : AppCompatActivity() {
         var counter = 0
         var rightAnswerCount = 0
         var totalGuessCount = 0
-        var answer:Array<Array<Int>>? = arrayOf()
+        var answer:ArrayList<Array<Int>>? = arrayListOf()
         var result_textview = findViewById<TextView>(Message)
-        ////ピアノの押した鍵盤を元に戻す
+
+        //unpress all the piano keys that have been pressed
         fun clear_keys() {
             for ((key, value) in press_record) {
                 if (value) {
@@ -235,7 +247,8 @@ class GameActivity : AppCompatActivity() {
                 }
             }
         }
-        //結果画面を見せる処理
+
+        //function for showing the result of taking quiz
         fun show_result(rightAnswerCount:Int, totalGuessCount:Int){
             Log.d("test", "5 questions are done")
             val intent = Intent(this@GameActivity, GameResultActivity::class.java)
@@ -243,118 +256,150 @@ class GameActivity : AppCompatActivity() {
             intent.putExtra("TOTAL_GUESS_COUNT", totalGuessCount)
             startActivity(intent)
         }
-        //ランダムに問題を出題
+
+        //processing for giving question randomly
+        var first_question:Boolean = true
+        var chosen_chords: ArrayList<Any> = arrayListOf()
         fun get_question(): kotlin.collections.List<Any> {
             var index = (base_keys.indices).random()
             var base_key = base_keys[index]
-            var chord = (chords.keys).random()
-            var question = base_key + chord
-            return listOf(index, chord, question)
-        }
-        fun get_answer(index:Any, chord:Any, answer:Array<Array<Int>>?): Array<Array<Int>>? {
-            var key_distances = chords[chord]
-            var i = index
-            var num = 0
-            answer!![num] = (keys_id[i as Int])
-            for (key_distance in key_distances!!) {
-                i = i as Int + key_distance
-                num += 1
-                answer!![num] = (keys_id[i as Int])
-            }
-            return answer
-        }
-        //次の問題を呼ぶ処理
-        fun setNextQuestion() {
-            result_textview.text = "Press right keys for chord"
-            result_textview.setTextColor(Color.BLACK)
-            answer = arrayOf()
-            //問題を呼ぶたびcounterに記録する
-            counter += 1
-            //ピアノの押した鍵盤を元に戻す
-            clear_keys()
-            //問題をランダムに出題
-            var (index:Any, chord, question) = get_question()
-            answer = get_answer(index, chord, answer)
-            textView.text = question.toString()
-            //ANSWERボタンを押した時の処理
-            val CheckAnswer = object : OnClickListener {
-                override fun onClick(v: View) {
-                    totalGuessCount += 1
-                    fun give_result(): Boolean {
-                        //atleast one of the key in same_keys has to be pressed(ex C or C_higher)
-                        //check 1)answer key is pressed + 2)wrong key is not pressed
-                        //1)answer key is pressed
-                        var result = true //result for 1) condition
-                        for (answer_keys in answer!!) {
-                            result = false
-                            for (i in press_record) {
-                                if (i.value && i.key in answer_keys) {
-                                    result = true//key in answer_keys(ex;C or C_higher)is pressed
-                                    break
-                                }
-                            }
-                            Log.d("test", "first check:" + result.toString())
-                            if (result) {//continue to check whether answer is correct
-                                continue
-                            } else {//wrong answer
-                                return false
-                            }
-                        }
-                        //check 2)wrong key is not pressed if 1) is passed succefully
-                        if (result) {
-                            Log.d("test", "reached")
-                            for (i in press_record) {
-                                var wrong_count = 0
-                                for (answer_keys in answer!!) {
-                                    if (i.key !in answer_keys && i.value) {
-                                        wrong_count += 1//key not in answer_keys is pressed
-                                        break
-                                    }
-                                }
-                                if (wrong_count == answer!!.count()) {//key that is not in partt of answer_keys is pressed
-                                    return false
-                                } else {
-                                    continue
-                                }
-                            }
-                        }
-                        return true //both condition 1) and 2) was passed
-                    }
-
-                    val result: Boolean = give_result()
-                    //checking finish------
-                    if (result) {
-                        rightAnswerCount += 1
-                        result_textview.text = "CORRECT"
-                        result_textview.setTextColor(Color.RED)
-                        if (counter < 5) {
-                            Thread.sleep(500)
-                            Handler().postDelayed({ setNextQuestion() }, 2000)
-                        } else {
-                            show_result(rightAnswerCount, totalGuessCount)
-
-                        }
-                    } else {
-                        result_textview.text = "WRONG"
-                        result_textview.setTextColor(Color.BLUE)
-
+            //for first question, indicate the type of chord type that user chose
+            if (first_question) {
+                var selected_chords = common.getSelectedChord().values
+                for (selected_chord in selected_chords!!) {
+                    if (selected_chord[1] as Boolean) {
+                        chosen_chords.add(selected_chord[0])
                     }
                 }
             }
-            findViewById<Button>(answer_btn).setOnClickListener(CheckAnswer)
+            //firstime_finishes-----
+            var chord:String
+            if ("all" in chosen_chords) {
+                chord = (chords.keys).random()
+            } else {
+                chord = chosen_chords.random() as String
+            }
+            var question = base_key + chord
+            first_question = false
+            return listOf(index, chord, question)
         }
-        //初回の問題の設定
+
+        //function for getting answer based on the random question chosen
+        fun get_answer(index:Any, chord:Any, answer: ArrayList<Array<Int>>?): ArrayList<Array<Int>>? {
+            var key_distances = chords[chord]
+            var i = index
+            answer!!.add(keys_id[i as Int])
+            for (key_distance in key_distances!!) {
+                i = i as Int + key_distance
+                answer!!.add(keys_id[i as Int])
+            }
+            return answer
+        }
+
+        //function for setting next question
+        fun setNextQuestion() {
+            result_textview.text = "Press right keys for chord"
+            result_textview.setTextColor(Color.BLACK)
+            answer = arrayListOf()
+            //record the number of time question is given
+            counter += 1
+            //restore the keys in original condition
+            clear_keys()
+            //process for choosing question randomly and getting responding answer
+            var (index:Any, chord, question) = get_question()
+            Log.d("test", "index ${index}, chord ${chord}, question ${question}}")
+            answer = get_answer(index, chord, answer)
+            Log.d("test", "answer ${answer}")
+            textView.text = question.toString()
+        }
+
+        //variable that stores true if user guessed the correct answer
+        var isCorrect:Boolean? = null
+        //process for when answer button is pressed
+        // (indicate whether user guessed the right/show correct or wrong on screen/ and
+        // decide next operation depedening on number of question tried)
+        val CheckAnswer = object : OnClickListener {
+            override fun onClick(v: View) {
+                totalGuessCount += 1
+                //atleast one of the key in same_keys has to be pressed(ex C or C_higher)
+                //check 1)answer key is pressed + 2)wrong key is not pressed
+                //1)answer key is pressed
+                var result = true //result for 1) condition
+                isCorrect = null // result for both condition
+                for (answer_keys in answer!!) {
+                    result = false
+                    for (i in press_record) {
+                        if (i.value && i.key in answer_keys) {
+                            result = true//key in answer_keys(ex;C or C_higher)is pressed
+                            break
+                        }
+                    }
+                    Log.d("test", "first check:" + result.toString())
+                    if (result) {//continue to check whether answer is correct
+                        continue
+                    } else {//wrong answer
+                        result = false
+                        isCorrect = false
+                        break
+                    }
+                }
+                //check 2)wrong key is not pressed if 1) is passed succefully
+                if (result) {
+                    Log.d("test", "reached")
+                    for (i in press_record) {
+                        var wrong_count = 0
+                        for (answer_keys in answer!!) {
+                            if (i.key !in answer_keys && i.value) {
+                                wrong_count += 1//key not in answer_keys is pressed
+                                break
+                            }
+                        }
+                        if (wrong_count == answer!!.count()) {//key that is not in partt of answer_keys is pressed
+                            isCorrect = false
+                            break
+                        } else {
+                            continue
+                        }
+                    }
+                }
+                //is Correct will remain null if both condition 1) and 2) was passed
+                if (isCorrect == null){
+                    isCorrect = true
+                }
+                if (isCorrect as Boolean) {
+                    rightAnswerCount += 1
+                    result_textview.text = "CORRECT"
+                    result_textview.setTextColor(Color.RED)
+                    if (counter < 10) {
+                        Thread.sleep(500)
+                        Handler().postDelayed({ setNextQuestion() }, 2000)
+                    } else {
+                        show_result(rightAnswerCount, totalGuessCount)
+
+                    }
+                } else {
+                    result_textview.text = "WRONG"
+                    result_textview.setTextColor(Color.BLUE)
+
+                }
+            }
+        }
+        findViewById<Button>(answer_btn).setOnClickListener(CheckAnswer)
+
+        //calling the first question
         setNextQuestion()
 
-        //Clearボタンの処理
+
+        //processing for clear button
         var clear_btn = findViewById<Button>(clear)
         clear_btn.setOnClickListener { clear_keys() }
 
-        //GiveUpボタンの処理
+        //processing for giveup button
         var first_time = true
         var giveup_btn = findViewById<Button>(give_up)
         giveup_btn.setOnClickListener {
             if (first_time) {
+                totalGuessCount += 1
                 result_textview.text = "Keys included in this chord is..."
                 clear_keys()
                 for (right_keys in answer!!) {
@@ -376,6 +421,8 @@ class GameActivity : AppCompatActivity() {
         }
 
     }
+
+
 
 }
 
