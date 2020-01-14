@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     android:background="#00FFFFFF"
     android:orientation="vertical">
-    <TableRow
+    <LinearLayout
         style="?attr/actionBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_weight="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
         <Button
             android:id="@+id/btn_C"
             style="@style/WhiteKey"/>
@@ -29,5 +30,5 @@
         <Button
             android:id="@+id/btn_B"
             style="@style/WhiteKey"/>
-    </TableRow>
+    </LinearLayout>
 </TableLayout>

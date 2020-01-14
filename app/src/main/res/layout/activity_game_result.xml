@@ -6,72 +6,73 @@
     android:layout_height="match_parent"
     tools:context=".GameResultActivity">
 
-    <Button
-        android:id="@+id/Menu"
-        android:layout_width="165dp"
-        android:layout_height="73dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="132dp"
-        android:layout_marginRight="132dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/btn_design"
-        android:text="@string/menu"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.408"
-        app:layout_constraintStart_toEndOf="@+id/restart"
-        app:layout_constraintVertical_bias="0.63" />
-
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/Result"
-            android:layout_width="188dp"
-            android:layout_height="80dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="-80dp"
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.5">
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/result"
-            android:textColor="#000000"
-            android:textSize="40sp"
-            app:fontFamily="sans-serif-black"
-            />
-
-        <TextView
-            android:id="@+id/score"
-            android:layout_width="139dp"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/Result"
+                android:layout_width="188dp"
+                android:layout_height="80dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/result"
+                android:textColor="#000000"
+                android:textSize="40sp"
+                app:fontFamily="sans-serif-black"
+                />
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="139dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/_0_5"
+                android:textColor="#000000"
+                android:textSize="36sp"
+                app:fontFamily="sans-serif-black" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.7"
             android:gravity="center"
-            android:text="@string/_0_5"
-            android:textColor="#000000"
-            android:textSize="36sp"
-            app:fontFamily="sans-serif-black"
-            />
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/Menu"
+                android:layout_width="165dp"
+                android:layout_height="73dp"
+                android:background="@drawable/btn_design"
+                android:text="@string/menu"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:layout_marginRight="20dp"
+                 />
+
+            <Button
+                android:id="@+id/restart"
+                android:layout_width="173dp"
+                android:layout_height="73dp"
+                android:background="@drawable/btn_design"
+                android:text="@string/restart"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                />
+            </LinearLayout>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/restart"
-        android:layout_width="173dp"
-        android:layout_height="73dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="132dp"
-        android:layout_marginLeft="132dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/btn_design"
-        android:text="@string/restart"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 </RelativeLayout>

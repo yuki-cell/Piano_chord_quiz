@@ -4,30 +4,38 @@
     android:layout_height="match_parent"
     android:background="#00FFFFFF"
     android:orientation="vertical">
-    <TableRow
+
+    <LinearLayout
         style="?attr/actionBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+
+        android:layout_weight="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
         <Button
             android:id="@+id/btn_C_higher"
-            style="@style/WhiteKey"/>
+            style="@style/WhiteKey"
+            />
         <Button
             android:id="@+id/btn_D_higher"
-            style="@style/WhiteKey"/>
+            style="@style/WhiteKey" />
         <Button
             android:id="@+id/btn_E_higher"
-            style="@style/WhiteKey"/>
+            style="@style/WhiteKey" />
         <Button
             android:id="@+id/btn_F_higher"
-            style="@style/WhiteKey"/>
+            style="@style/WhiteKey"
+            />
         <Button
             android:id="@+id/btn_G_higher"
-            style="@style/WhiteKey"/>
+            style="@style/WhiteKey"
+           />
         <Button
             android:id="@+id/btn_A_higher"
-            style="@style/WhiteKey"/>
+            style="@style/WhiteKey"
+            />
         <Button
             android:id="@+id/btn_B_higher"
-            style="@style/WhiteKey"/>
-    </TableRow>
+            style="@style/WhiteKey"
+           />
+    </LinearLayout>
 </TableLayout>

@@ -145,12 +145,11 @@ class GameActivity : AppCompatActivity() {
         //function for when piano key is pressed
         val pianoOperator = object : OnClickListener {
             override fun onClick(v: View) {
-                //play sound and change the color of key
+                //play sound(only when user select key/not when unselect) and change the color of key
                 var sound_vol = common.getSoundVol()
                 Log.d("test", "sound "+sound_vol.toString())
-                soundPool.play(sounds[v.id]!!, sound_vol!!.toFloat(), sound_vol!!.toFloat(), 0, 0, 1.0f)
                 if (press_record[v.id]!!) {
-                    //黒鍵のばあい赤->黒
+                    //黒鍵のばあい赤->黒 (change color of the key from red to black)
                     if (v.id in listOf(
                             btn_Csharp, btn_Dsharp, btn_Fsharp, btn_Gsharp,
                             btn_Asharp,
@@ -159,11 +158,12 @@ class GameActivity : AppCompatActivity() {
                         )
                     ) {
                         findViewById<Button>(v.id).setBackgroundColor(Color.parseColor("#000000"))
-                    } else { //白鍵の場合、赤->白
+                    } else { //白鍵の場合、赤->白(red to white)
                         findViewById<Button>(v.id).setBackgroundColor(Color.parseColor("#FFFEEC"))
                     }
                     press_record[v.id] = false
                 } else {
+                    soundPool.play(sounds[v.id]!!, sound_vol!!.toFloat(), sound_vol!!.toFloat(), 0, 0, 1.0f)
                     findViewById<Button>(v.id).setBackgroundColor(Color.parseColor("#ff0000"))
                     press_record[v.id] = true
                 }
@@ -298,6 +298,8 @@ class GameActivity : AppCompatActivity() {
 
         //function for setting next question
         fun setNextQuestion() {
+            //enable answer button
+            findViewById<Button>(answer_btn).isEnabled = true
             result_textview.text = "Press right keys for chord"
             result_textview.setTextColor(Color.BLACK)
             answer = arrayListOf()
@@ -399,8 +401,11 @@ class GameActivity : AppCompatActivity() {
         var giveup_btn = findViewById<Button>(give_up)
         giveup_btn.setOnClickListener {
             if (first_time) {
+                //prevend user pressing answer button
+                findViewById<Button>(answer_btn).isEnabled = false
                 totalGuessCount += 1
                 result_textview.text = "Keys included in this chord is..."
+                result_textview.setTextColor(Color.parseColor("#000000"))
                 clear_keys()
                 for (right_keys in answer!!) {
                     var key = findViewById<Button>(right_keys[0])
@@ -409,8 +414,9 @@ class GameActivity : AppCompatActivity() {
                     giveup_btn.text = "NEXT"
                     first_time = false
                 }
-            } else {
-                if (counter < 5) {
+            } else {//when next is pressed
+                var number_of_questions = 5
+                if (counter < number_of_questions) {
                     first_time = true
                     giveup_btn.text = "GIVE UP"
                     setNextQuestion()
